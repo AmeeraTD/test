@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from validation import validate_data;
 from authorization import require_api_token;
+from data_processing import process_tasks;
 
 
 app = Flask(__name__)
@@ -15,7 +16,9 @@ def submit():
         return jsonify({"errors": errors}), 400
     
 
-    return jsonify({"message": "Data and api key are Valid"}), 200
+        # Process the valid data here
+    summary = process_tasks(data['tasks'])
+    return jsonify({"message": "Data submitted successfully", "summary": summary}), 200
 
 
 if __name__ == '__main__':
